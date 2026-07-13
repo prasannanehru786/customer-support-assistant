@@ -1,0 +1,14 @@
+streamlit>=1.45,<2
+requests==2.32.3
+openai==2.45.0
+crewai==1.15.2
+langsmith==0.2.11
+qdrant-client==1.12.1
+grpcio-tools==1.76.0
+rank-bm25==0.2.2
+python-dotenv==1.2.2
+Pillow>=10,<13
+google-api-python-client==2.187.0
+google-auth==2.41.1
+google-auth-httplib2==0.2.1
+google-auth-oauthlib==1.2.3

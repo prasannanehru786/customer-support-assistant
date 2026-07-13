@@ -1,0 +1,2 @@
+"""Support assistant application package."""
+

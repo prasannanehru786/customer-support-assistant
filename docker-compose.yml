@@ -1,0 +1,47 @@
+services:
+  app:
+    build: .
+    container_name: crewai-support-app
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ANSWERS_FILE_PATH: /app/data/answers.txt
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./knowledge:/app/knowledge
+      - ./audio:/app/audio
+      - ./secrets:/app/secrets:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "healthcheck.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      - qdrant
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.5
+    container_name: crewai-support-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./data/qdrant:/qdrant/storage
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: crewai-support-uptime-kuma
+    profiles:
+      - monitoring
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data/uptime-kuma:/app/data
+    restart: unless-stopped

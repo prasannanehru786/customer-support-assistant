@@ -1,0 +1,3 @@
+# CrewAI is now a first-class runtime dependency and is also listed in requirements.txt.
+# Keep this file for evaluators who ask specifically for a CrewAI requirements file.
+crewai==1.15.2
