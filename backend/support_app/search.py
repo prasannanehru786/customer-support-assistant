@@ -4,8 +4,8 @@ import os
 
 import requests
 
-from support_app.config import SERPAPI_ENDPOINT, get_serpapi_key
-from support_app.models import Source
+from backend.support_app.config import SERPAPI_ENDPOINT, get_serpapi_key
+from backend.support_app.models import Source
 
 
 def search_web(query: str) -> list[Source]:

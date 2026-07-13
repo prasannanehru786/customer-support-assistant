@@ -27,4 +27,4 @@ EXPOSE 8501
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD python healthcheck.py
 
-CMD ["streamlit", "run", "app.py"]
+CMD ["streamlit", "run", "frontend/app.py"]

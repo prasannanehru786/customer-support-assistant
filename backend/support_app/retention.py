@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 
-from support_app.config import (
+from backend.support_app.config import (
     ANSWERS_FILE,
     AUDIO_DIR,
     CREWAI_STORAGE_DIR,

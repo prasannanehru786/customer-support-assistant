@@ -7,8 +7,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from support_app.config import AUDIO_DIR, ensure_runtime_dirs
-from support_app.models import VoiceTranscript
+from backend.support_app.config import AUDIO_DIR, ensure_runtime_dirs
+from backend.support_app.models import VoiceTranscript
 
 
 def transcribe_audio(audio_file: Any) -> VoiceTranscript:

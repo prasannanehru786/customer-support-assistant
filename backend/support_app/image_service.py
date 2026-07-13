@@ -10,11 +10,11 @@ from typing import Any
 
 from PIL import Image, ImageOps, UnidentifiedImageError
 
-from support_app.config import APP_ROOT, DEFAULT_MODEL, IMAGE_OUTPUT_DIR, IMAGE_UPLOAD_DIR, ensure_runtime_dirs
-from support_app.costs import aggregate_costs, estimate_cost
-from support_app.guardrails import redact_text
-from support_app.models import ImageArtifact, ImageInput, UsageCost
-from support_app.openai_clients import make_openai_client
+from backend.support_app.config import APP_ROOT, DEFAULT_MODEL, IMAGE_OUTPUT_DIR, IMAGE_UPLOAD_DIR, ensure_runtime_dirs
+from backend.support_app.costs import aggregate_costs, estimate_cost
+from backend.support_app.guardrails import redact_text
+from backend.support_app.models import ImageArtifact, ImageInput, UsageCost
+from backend.support_app.openai_clients import make_openai_client
 
 ALLOWED_IMAGE_MIME_TYPES = {
     "image/png": "PNG",

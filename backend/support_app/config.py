@@ -11,7 +11,7 @@ except ImportError:  # pragma: no cover - optional local developer convenience
 if load_dotenv:
     load_dotenv()
 
-APP_ROOT = Path(__file__).resolve().parents[1]
+APP_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = APP_ROOT / "data"
 TRANSCRIPT_DIR = DATA_DIR / "transcripts"
 LOG_DIR = APP_ROOT / "logs"

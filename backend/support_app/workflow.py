@@ -5,27 +5,27 @@ import uuid
 from dataclasses import asdict
 from datetime import datetime, timezone
 
-from support_app.config import DEFAULT_MODEL, get_serpapi_key
-from support_app.compaction import compact_agent_context, compaction_metrics_asdict
-from support_app.costs import aggregate_costs, estimate_cost
-from support_app.crewai_flow import run_crewai_support_crew
+from backend.support_app.config import DEFAULT_MODEL, get_serpapi_key
+from backend.support_app.compaction import compact_agent_context, compaction_metrics_asdict
+from backend.support_app.costs import aggregate_costs, estimate_cost
+from backend.support_app.crewai_flow import run_crewai_support_crew
 import os
 
-from support_app.guardrails import pii_findings, redact_sources, redact_text, validate_answer, validate_query
-from support_app.google_sheets import append_run_to_google_sheet
-from support_app.image_service import (
+from backend.support_app.guardrails import pii_findings, redact_sources, redact_text, validate_answer, validate_query
+from backend.support_app.google_sheets import append_run_to_google_sheet
+from backend.support_app.image_service import (
     analyze_uploaded_images,
     generate_image_output,
     image_feature_enabled,
     wants_image_output,
     save_uploaded_images,
 )
-from support_app.models import ImageInput, RunRecord, Source, UsageCost
-from support_app.observability import trace_with_langsmith
-from support_app.rag import retrieve_hybrid_rag, retrieve_local_knowledge
-from support_app.search import search_web
-from support_app.storage import save_run, save_transcripts
-from support_app.utils import sha256_text
+from backend.support_app.models import ImageInput, RunRecord, Source, UsageCost
+from backend.support_app.observability import trace_with_langsmith
+from backend.support_app.rag import retrieve_hybrid_rag, retrieve_local_knowledge
+from backend.support_app.search import search_web
+from backend.support_app.storage import save_run, save_transcripts
+from backend.support_app.utils import sha256_text
 
 
 def run_support_flow(query: str, mode: str, image_inputs: list[ImageInput] | None = None) -> RunRecord:

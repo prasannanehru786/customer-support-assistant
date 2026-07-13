@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 
-from support_app.models import UsageCost
+from backend.support_app.models import UsageCost
 
 
 def estimate_cost(

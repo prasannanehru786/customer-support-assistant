@@ -58,34 +58,35 @@ Important: Google Sheets row appending is **not** delegated to the LLM. The app 
 
 | Tool | File | Used by | Writes data? | Purpose |
 |---|---|---|---|---|
-| `rag_retrieval` | `support_app/tools.py` | Direct Support Analyst | No | Exposes prefetched hybrid RAG context to CrewAI |
-| `serpapi_search` | `support_app/tools.py` | Web Verification Analyst | No | Exposes SerpAPI search results to CrewAI |
-| `image_analysis` | `support_app/tools.py` | Direct Support Analyst | No | Exposes sanitized image analysis to CrewAI |
-| `google_sheets_reporting_status` | `support_app/tools.py` | Production Support Responder | No | Reports whether Google Sheets logging is configured |
+| `rag_retrieval` | `backend/support_app/tools.py` | Direct Support Analyst | No | Exposes prefetched hybrid RAG context to CrewAI |
+| `serpapi_search` | `backend/support_app/tools.py` | Web Verification Analyst | No | Exposes SerpAPI search results to CrewAI |
+| `image_analysis` | `backend/support_app/tools.py` | Direct Support Analyst | No | Exposes sanitized image analysis to CrewAI |
+| `google_sheets_reporting_status` | `backend/support_app/tools.py` | Production Support Responder | No | Reports whether Google Sheets logging is configured |
 
 ## Code Components
 
 | Path | Responsibility |
 |---|---|
-| `app.py` | Thin Streamlit entrypoint plus compatibility exports for tests |
-| `support_app/ui.py` | Streamlit page chrome, sidebar, composer, voice/image widgets, result display, buildathon tabs |
-| `support_app/config.py` | Environment loading, paths, runtime directories, model defaults |
-| `support_app/auth.py` | Optional Streamlit password gate and Google OAuth login gate |
-| `support_app/models.py` | Shared dataclasses for records, costs, sources, images, voice transcripts |
-| `support_app/workflow.py` | End-to-end support flow coordinator |
-| `support_app/crewai_flow.py` | CrewAI agents, tasks, crew setup, usage metrics |
-| `support_app/tools.py` | CrewAI tool factories |
-| `support_app/rag.py` | Hybrid RAG, Qdrant indexing, embeddings, BM25, local fallback |
-| `support_app/search.py` | SerpAPI search integration |
-| `support_app/guardrails.py` | Input/output validation, prompt-injection checks, PII/secret redaction |
-| `support_app/compaction.py` | Context compaction and estimated token-reduction metrics |
-| `support_app/costs.py` | Token, embedding, SerpAPI, and image cost estimates |
-| `support_app/storage.py` | SQLite persistence, JSONL logs, transcript files |
-| `support_app/retention.py` | Retention cleanup for logs, transcripts, audio, images, CrewAI memory |
-| `support_app/observability.py` | LangSmith trace handoff |
-| `support_app/voice.py` | Local STT/TTS helpers |
-| `support_app/image_service.py` | Image validation, metadata stripping, vision analysis, image generation |
-| `support_app/google_sheets.py` | Google Drive folder, Google Sheet, safe row append reporting |
+| `frontend/app.py` | Primary Streamlit UI entrypoint |
+| `app.py` | Backward-compatible Streamlit wrapper plus compatibility exports for tests |
+| `backend/support_app/ui.py` | Streamlit page chrome, sidebar, composer, voice/image widgets, result display, buildathon tabs |
+| `backend/support_app/config.py` | Environment loading, paths, runtime directories, model defaults |
+| `backend/support_app/auth.py` | Optional Streamlit password gate and Google OAuth login gate |
+| `backend/support_app/models.py` | Shared dataclasses for records, costs, sources, images, voice transcripts |
+| `backend/support_app/workflow.py` | End-to-end support flow coordinator |
+| `backend/support_app/crewai_flow.py` | CrewAI agents, tasks, crew setup, usage metrics |
+| `backend/support_app/tools.py` | CrewAI tool factories |
+| `backend/support_app/rag.py` | Hybrid RAG, Qdrant indexing, embeddings, BM25, local fallback |
+| `backend/support_app/search.py` | SerpAPI search integration |
+| `backend/support_app/guardrails.py` | Input/output validation, prompt-injection checks, PII/secret redaction |
+| `backend/support_app/compaction.py` | Context compaction and estimated token-reduction metrics |
+| `backend/support_app/costs.py` | Token, embedding, SerpAPI, and image cost estimates |
+| `backend/support_app/storage.py` | SQLite persistence, JSONL logs, transcript files |
+| `backend/support_app/retention.py` | Retention cleanup for logs, transcripts, audio, images, CrewAI memory |
+| `backend/support_app/observability.py` | LangSmith trace handoff |
+| `backend/support_app/voice.py` | Local STT/TTS helpers |
+| `backend/support_app/image_service.py` | Image validation, metadata stripping, vision analysis, image generation |
+| `backend/support_app/google_sheets.py` | Google Drive folder, Google Sheet, safe row append reporting |
 | `scripts/google_oauth_bootstrap.py` | One-time OAuth refresh-token helper for client ID/client secret flow |
 | `healthcheck.py` | Docker health check endpoint probe |
 | `docker-compose.yml` | App, Qdrant, optional Uptime Kuma services |
@@ -99,18 +100,18 @@ Important: Google Sheets row appending is **not** delegated to the LLM. The app 
 
 | Step | What happens | Main modules |
 |---|---|---|
-| 1 | User enters text, records voice, and/or uploads image | `support_app/ui.py` |
-| 2 | Voice is transcribed locally if enabled | `support_app/voice.py` |
-| 3 | Uploaded images are validated, resized, metadata-stripped, and analyzed | `support_app/image_service.py` |
-| 4 | Input guardrails validate and redact query | `support_app/guardrails.py` |
-| 5 | Hybrid RAG retrieves local knowledge from Qdrant/BM25 | `support_app/rag.py` |
-| 6 | SerpAPI runs when buildathon mode is active or RAG misses | `support_app/search.py` |
-| 7 | Context compaction reduces prompt size and logs estimated token reduction | `support_app/compaction.py` |
-| 8 | CrewAI runs Direct, Web, and Final tasks sequentially | `support_app/crewai_flow.py` |
-| 9 | Output guardrails validate final answer and source conditions | `support_app/guardrails.py` |
-| 10 | Optional image output is generated only when user asks for a visual | `support_app/image_service.py` |
-| 11 | SQLite, JSONL, transcripts, LangSmith, and optional Google Sheets are updated | `support_app/storage.py`, `support_app/observability.py`, `support_app/google_sheets.py` |
-| 12 | UI renders final answer, audio, generated image, sources, and debug trace | `support_app/ui.py` |
+| 1 | User enters text, records voice, and/or uploads image | `backend/support_app/ui.py` |
+| 2 | Voice is transcribed locally if enabled | `backend/support_app/voice.py` |
+| 3 | Uploaded images are validated, resized, metadata-stripped, and analyzed | `backend/support_app/image_service.py` |
+| 4 | Input guardrails validate and redact query | `backend/support_app/guardrails.py` |
+| 5 | Hybrid RAG retrieves local knowledge from Qdrant/BM25 | `backend/support_app/rag.py` |
+| 6 | SerpAPI runs when buildathon mode is active or RAG misses | `backend/support_app/search.py` |
+| 7 | Context compaction reduces prompt size and logs estimated token reduction | `backend/support_app/compaction.py` |
+| 8 | CrewAI runs Direct, Web, and Final tasks sequentially | `backend/support_app/crewai_flow.py` |
+| 9 | Output guardrails validate final answer and source conditions | `backend/support_app/guardrails.py` |
+| 10 | Optional image output is generated only when user asks for a visual | `backend/support_app/image_service.py` |
+| 11 | SQLite, JSONL, transcripts, LangSmith, and optional Google Sheets are updated | `backend/support_app/storage.py`, `backend/support_app/observability.py`, `backend/support_app/google_sheets.py` |
+| 12 | UI renders final answer, audio, generated image, sources, and debug trace | `backend/support_app/ui.py` |
 
 ## Storage And Files
 
@@ -247,7 +248,7 @@ APP_AUTH_ALLOW_SIGNUP=false
 Generate a password hash locally:
 
 ```bash
-.venv312/bin/python -c "from support_app.auth import hash_password; print(hash_password('replace-with-your-password'))"
+.venv312/bin/python -c "from backend.support_app.auth import hash_password; print(hash_password('replace-with-your-password'))"
 ```
 
 For quick local testing only, you can use:
@@ -445,7 +446,7 @@ Docker volumes:
 ```bash
 python3.12 -m venv .venv312
 .venv312/bin/pip install -r requirements.txt
-.venv312/bin/streamlit run app.py
+.venv312/bin/streamlit run frontend/app.py
 ```
 
 Open:
@@ -502,7 +503,7 @@ http://localhost:3001
 
 | Requirement/demo point | Where to show it |
 |---|---|
-| CrewAI framework | Explain `support_app/crewai_flow.py` and the three CrewAI agents |
+| CrewAI framework | Explain `backend/support_app/crewai_flow.py` and the three CrewAI agents |
 | Three-agent buildathon output | Switch UI to `buildathon` mode and show three tabs |
 | Production answer | Switch UI to `production` mode and show one final answer |
 | RAG | Put `.txt` docs in `knowledge/`, ask a policy/product question, open Sources |

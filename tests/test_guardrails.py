@@ -3,7 +3,7 @@ from io import BytesIO
 
 from PIL import Image
 
-from support_app.auth import (
+from backend.support_app.auth import (
     create_first_admin_user,
     create_oauth_state,
     hash_password,
@@ -12,17 +12,17 @@ from support_app.auth import (
     verify_password_hash,
     verify_password_login,
 )
-from support_app.compaction import compact_agent_context
-from support_app.google_sheets import (
+from backend.support_app.compaction import compact_agent_context
+from backend.support_app.google_sheets import (
     SHEET_HEADERS,
     google_sheets_enabled,
     google_sheets_status_summary,
     run_record_to_sheet_row,
 )
-from support_app.guardrails import pii_findings, redact_sources
-from support_app import image_service
-from support_app.image_service import safe_file_name, wants_image_output
-from support_app.models import ImageInput, RunRecord, Source, UsageCost
+from backend.support_app.guardrails import pii_findings, redact_sources
+from backend.support_app import image_service
+from backend.support_app.image_service import safe_file_name, wants_image_output
+from backend.support_app.models import ImageInput, RunRecord, Source, UsageCost
 
 
 def test_validate_query_blocks_prompt_injection() -> None:
@@ -198,7 +198,7 @@ def test_oauth_state_is_signed(monkeypatch) -> None:
 
 
 def test_first_admin_setup_creates_local_password_user(tmp_path, monkeypatch) -> None:
-    monkeypatch.setattr("support_app.auth.AUTH_USERS_PATH", tmp_path / "auth_users.json")
+    monkeypatch.setattr("backend.support_app.auth.AUTH_USERS_PATH", tmp_path / "auth_users.json")
     monkeypatch.delenv("APP_AUTH_PASSWORD_HASH", raising=False)
     monkeypatch.delenv("APP_AUTH_PASSWORD", raising=False)
     monkeypatch.setenv("APP_AUTH_ALLOW_SIGNUP", "true")

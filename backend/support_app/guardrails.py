@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import re
 
-from support_app.models import GuardrailResult, Source
+from backend.support_app.models import GuardrailResult, Source
 
 PROMPT_INJECTION_PATTERNS = [
     r"ignore\s+(all\s+)?previous\s+instructions",

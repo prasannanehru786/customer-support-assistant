@@ -7,16 +7,16 @@ from dataclasses import asdict
 
 import streamlit as st
 
-from support_app.auth import require_authentication, render_auth_sidebar
-from support_app.config import APP_ROOT, DEFAULT_MODEL, ensure_runtime_dirs, get_serpapi_key
-from support_app.crewai_flow import crewai_dependency_status
-from support_app.google_sheets import ensure_google_reporting_destination, google_sheets_enabled
-from support_app.image_service import image_feature_enabled
-from support_app.models import ImageArtifact, ImageInput, RunRecord
-from support_app.retention import apply_retention_policy
-from support_app.storage import init_db
-from support_app.voice import synthesize_speech, transcribe_audio
-from support_app.workflow import run_support_flow
+from backend.support_app.auth import require_authentication, render_auth_sidebar
+from backend.support_app.config import APP_ROOT, DEFAULT_MODEL, ensure_runtime_dirs, get_serpapi_key
+from backend.support_app.crewai_flow import crewai_dependency_status
+from backend.support_app.google_sheets import ensure_google_reporting_destination, google_sheets_enabled
+from backend.support_app.image_service import image_feature_enabled
+from backend.support_app.models import ImageArtifact, ImageInput, RunRecord
+from backend.support_app.retention import apply_retention_policy
+from backend.support_app.storage import init_db
+from backend.support_app.voice import synthesize_speech, transcribe_audio
+from backend.support_app.workflow import run_support_flow
 
 
 def render_app_chrome() -> None:

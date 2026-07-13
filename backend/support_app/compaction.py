@@ -5,7 +5,7 @@ import re
 import time
 from dataclasses import asdict, dataclass
 
-from support_app.models import Source
+from backend.support_app.models import Source
 
 
 @dataclass

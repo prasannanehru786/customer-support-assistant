@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from support_app.config import (
+from backend.support_app.config import (
     EMBEDDING_MODEL,
     KNOWLEDGE_DIR,
     QDRANT_COLLECTION,
@@ -18,10 +18,10 @@ from support_app.config import (
     RAG_INDEX_STATE_PATH,
     ensure_runtime_dirs,
 )
-from support_app.costs import aggregate_costs, estimate_cost
-from support_app.models import KnowledgeChunk, Source, UsageCost
-from support_app.openai_clients import make_openai_client
-from support_app.utils import sha256_text
+from backend.support_app.costs import aggregate_costs, estimate_cost
+from backend.support_app.models import KnowledgeChunk, Source, UsageCost
+from backend.support_app.openai_clients import make_openai_client
+from backend.support_app.utils import sha256_text
 
 
 def retrieve_local_knowledge(query: str) -> tuple[str, list[Source], bool]:

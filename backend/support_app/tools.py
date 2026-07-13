@@ -4,9 +4,9 @@ from typing import Any
 
 from crewai.tools import tool
 
-from support_app.google_sheets import google_sheets_status_summary
-from support_app.rag import retrieve_hybrid_rag, retrieve_local_knowledge
-from support_app.search import search_web
+from backend.support_app.google_sheets import google_sheets_status_summary
+from backend.support_app.rag import retrieve_hybrid_rag, retrieve_local_knowledge
+from backend.support_app.search import search_web
 
 
 def make_rag_retrieval_tool(prefetched_context: str, prefetched_sources: str) -> Any:

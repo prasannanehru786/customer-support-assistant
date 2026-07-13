@@ -13,7 +13,7 @@ from typing import Any
 
 import streamlit as st
 
-from support_app.config import AUTH_USERS_PATH, ensure_runtime_dirs
+from backend.support_app.config import AUTH_USERS_PATH, ensure_runtime_dirs
 
 
 @dataclass

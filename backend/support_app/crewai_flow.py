@@ -4,11 +4,11 @@ import importlib.util
 import os
 from typing import Any
 
-from support_app.config import DEFAULT_MODEL, LOG_DIR
-from support_app.costs import estimate_cost
-from support_app.models import CrewSupportResult, Source, UsageCost
-from support_app.google_sheets import google_sheets_status_summary
-from support_app.tools import (
+from backend.support_app.config import DEFAULT_MODEL, LOG_DIR
+from backend.support_app.costs import estimate_cost
+from backend.support_app.models import CrewSupportResult, Source, UsageCost
+from backend.support_app.google_sheets import google_sheets_status_summary
+from backend.support_app.tools import (
     make_google_sheets_reporting_tool,
     make_image_analysis_tool,
     make_rag_retrieval_tool,

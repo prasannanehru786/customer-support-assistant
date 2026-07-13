@@ -6,8 +6,8 @@ import os
 from pathlib import Path
 from typing import Any
 
-from support_app.config import GOOGLE_SHEETS_STATE_PATH, ensure_runtime_dirs
-from support_app.models import RunRecord
+from backend.support_app.config import GOOGLE_SHEETS_STATE_PATH, ensure_runtime_dirs
+from backend.support_app.models import RunRecord
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",

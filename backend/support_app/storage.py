@@ -5,8 +5,8 @@ import sqlite3
 from dataclasses import asdict
 from pathlib import Path
 
-from support_app.config import ANSWERS_FILE, JSONL_LOG_PATH, SQLITE_PATH, TRANSCRIPT_DIR, ensure_runtime_dirs
-from support_app.models import RunRecord
+from backend.support_app.config import ANSWERS_FILE, JSONL_LOG_PATH, SQLITE_PATH, TRANSCRIPT_DIR, ensure_runtime_dirs
+from backend.support_app.models import RunRecord
 
 
 def support_run_columns(conn: sqlite3.Connection) -> set[str]:
