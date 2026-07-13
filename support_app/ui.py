@@ -218,20 +218,8 @@ def render_status_grid(items: list[tuple[str, str, str]]) -> None:
     st.markdown(f'<div class="status-grid">{cells}</div>', unsafe_allow_html=True)
 
 
-def google_sheets_status() -> tuple[str, str]:
-    if not google_sheets_enabled():
-        return "disabled", "warn"
-    status = st.session_state.get("google_sheets_status", {})
-    if status.get("ready"):
-        return "ready", "good"
-    if status.get("error"):
-        return "error", "warn"
-    return "enabled", "warn"
-
-
 def render_header(mode: str) -> None:
     crewai_status = crewai_dependency_status()
-    sheets_label, sheets_tone = google_sheets_status()
     header_col, status_col = st.columns([0.62, 0.38], gap="large", vertical_alignment="center")
     with header_col:
         st.markdown(
@@ -247,7 +235,6 @@ def render_header(mode: str) -> None:
                 ("CrewAI", crewai_status, "good" if crewai_status == "ready" else "warn"),
                 ("Voice", os.getenv("ENABLE_VOICE", "false").lower(), "good"),
                 ("Image", str(image_feature_enabled()).lower(), "good" if image_feature_enabled() else "warn"),
-                ("Sheets", sheets_label, sheets_tone),
                 ("LangSmith", os.getenv("LANGSMITH_TRACING", "false").lower(), "good"),
                 ("SerpAPI", "ready" if get_serpapi_key() else "missing", "good" if get_serpapi_key() else "warn"),
             ]
