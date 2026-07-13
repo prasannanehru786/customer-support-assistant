@@ -68,10 +68,14 @@ Important: Google Sheets row appending is **not** delegated to the LLM. The app 
 | Path | Responsibility |
 |---|---|
 | `frontend/app.py` | Primary Streamlit UI entrypoint |
+| `frontend/app_ui.py` | Thin Streamlit page coordinator |
+| `frontend/components/auth.py` | Streamlit authentication screens, session state, and OAuth callback handling |
+| `frontend/components/chrome.py` | App CSS, header, sidebar, and runtime status UI |
+| `frontend/components/composer.py` | Text, voice, image input composer |
+| `frontend/components/results.py` | Final answer, buildathon tabs, sources, image trace, and debug trace UI |
 | `app.py` | Backward-compatible Streamlit wrapper plus compatibility exports for tests |
-| `backend/support_app/ui.py` | Streamlit page chrome, sidebar, composer, voice/image widgets, result display, buildathon tabs |
 | `backend/support_app/config.py` | Environment loading, paths, runtime directories, model defaults |
-| `backend/support_app/auth.py` | Optional Streamlit password gate and Google OAuth login gate |
+| `backend/support_app/security/auth.py` | Password hashing, local user storage, OAuth validation, and auth policy helpers |
 | `backend/support_app/models.py` | Shared dataclasses for records, costs, sources, images, voice transcripts |
 | `backend/support_app/workflow.py` | End-to-end support flow coordinator |
 | `backend/support_app/crewai_flow.py` | CrewAI agents, tasks, crew setup, usage metrics |
@@ -100,7 +104,7 @@ Important: Google Sheets row appending is **not** delegated to the LLM. The app 
 
 | Step | What happens | Main modules |
 |---|---|---|
-| 1 | User enters text, records voice, and/or uploads image | `backend/support_app/ui.py` |
+| 1 | User enters text, records voice, and/or uploads image | `frontend/app_ui.py` |
 | 2 | Voice is transcribed locally if enabled | `backend/support_app/voice.py` |
 | 3 | Uploaded images are validated, resized, metadata-stripped, and analyzed | `backend/support_app/image_service.py` |
 | 4 | Input guardrails validate and redact query | `backend/support_app/guardrails.py` |
@@ -111,7 +115,7 @@ Important: Google Sheets row appending is **not** delegated to the LLM. The app 
 | 9 | Output guardrails validate final answer and source conditions | `backend/support_app/guardrails.py` |
 | 10 | Optional image output is generated only when user asks for a visual | `backend/support_app/image_service.py` |
 | 11 | SQLite, JSONL, transcripts, LangSmith, and optional Google Sheets are updated | `backend/support_app/storage.py`, `backend/support_app/observability.py`, `backend/support_app/google_sheets.py` |
-| 12 | UI renders final answer, audio, generated image, sources, and debug trace | `backend/support_app/ui.py` |
+| 12 | UI renders final answer, audio, generated image, sources, and debug trace | `frontend/app_ui.py` |
 
 ## Storage And Files
 
@@ -248,7 +252,7 @@ APP_AUTH_ALLOW_SIGNUP=false
 Generate a password hash locally:
 
 ```bash
-.venv312/bin/python -c "from backend.support_app.auth import hash_password; print(hash_password('replace-with-your-password'))"
+.venv312/bin/python -c "from backend.support_app.security.auth import hash_password; print(hash_password('replace-with-your-password'))"
 ```
 
 For quick local testing only, you can use:

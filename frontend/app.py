@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from backend.support_app.ui import main
+from frontend.app_ui import main
 
 
 if __name__ == "__main__":

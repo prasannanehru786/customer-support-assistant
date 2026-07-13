@@ -3,7 +3,7 @@ from io import BytesIO
 
 from PIL import Image
 
-from backend.support_app.auth import (
+from backend.support_app.security.auth import (
     create_first_admin_user,
     create_oauth_state,
     hash_password,
@@ -198,7 +198,7 @@ def test_oauth_state_is_signed(monkeypatch) -> None:
 
 
 def test_first_admin_setup_creates_local_password_user(tmp_path, monkeypatch) -> None:
-    monkeypatch.setattr("backend.support_app.auth.AUTH_USERS_PATH", tmp_path / "auth_users.json")
+    monkeypatch.setattr("backend.support_app.security.auth.AUTH_USERS_PATH", tmp_path / "auth_users.json")
     monkeypatch.delenv("APP_AUTH_PASSWORD_HASH", raising=False)
     monkeypatch.delenv("APP_AUTH_PASSWORD", raising=False)
     monkeypatch.setenv("APP_AUTH_ALLOW_SIGNUP", "true")
